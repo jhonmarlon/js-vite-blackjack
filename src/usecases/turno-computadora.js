@@ -1,7 +1,7 @@
 import { pedirCarta } from "./pedir-carta";
 import { sumaPuntosJugador } from "./suma-puntos-jugador";
 
-export const turnoComputadora = ( puntosMinimos, puntosComputadora, deck ) => {
+export const turnoComputadora = ( puntosMinimos, puntosComputadora, deck,  ) => {
     do {
 
         const carta = pedirCarta( deck );

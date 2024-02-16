@@ -1,4 +1,5 @@
-import { crearDeck, valorCarta, pedirCarta } from "../usecases";
+
+import { crearDeck, valorCarta, pedirCarta, creaCartaHTML, sumaPuntosJugador } from "../usecases";
 
 /**
  *  2C = Two of Clubs (Tréboles)
@@ -34,8 +35,8 @@ const turnoComputadora = ( puntosMinimos ) => {
     do {
 
         const carta = pedirCarta( deck );
-        sumaPuntosJugador(1, carta);
-        creaCartaHTML(1, carta);
+        puntosComputadora = sumaPuntosJugador(carta, puntosComputadora);
+        creaCartaHTML(1, carta, puntosHTML, divCartasJugador, divCartasComputadora, puntosJugador, puntosComputadora);
 
         if( puntosMinimos > 21 ) {
             // console.warn('Te ha ganado la computadora!')
@@ -60,44 +61,21 @@ const turnoComputadora = ( puntosMinimos ) => {
 
 }  
 
-// tipoJugador 0: usuario ó tipoJugador 1: computadora
-const sumaPuntosJugador = (tipoJugador, carta) => {
-    const valorcarta = valorCarta( carta );
-
-    tipoJugador === 0 
-        ? (puntosJugador += valorcarta) 
-        : (puntosComputadora += valorcarta); 
-
-    tipoJugador === 0 
-        ? (puntosHTML[0].innerText = puntosJugador)
-        : (puntosHTML[1].innerText = puntosComputadora)
-}
-
-// tipoJugador 0: usuario ó tipoJugador 1: computadora
-const creaCartaHTML = (tipoJugador, carta) => {
-    const cartaJugador = document.createElement('img');
-    cartaJugador.src = `./assets/cartas/${ carta }.png`;
-    cartaJugador.classList.add('carta');
- 
-    tipoJugador === 0 
-        ? divCartasJugador.append( cartaJugador )
-        : divCartasComputadora.append( cartaJugador );
-}
-
-
 // Eventos
 btnPedir.addEventListener('click', () => {
 
     const carta = pedirCarta( deck );
-    sumaPuntosJugador(0, carta);
-    creaCartaHTML(0, carta);
-    
 
+    puntosJugador = sumaPuntosJugador(carta, puntosJugador);
+    
+    creaCartaHTML(0, carta, puntosHTML, divCartasJugador, divCartasComputadora, puntosJugador, puntosComputadora);
+    
     if( puntosJugador > 21 ) {
         //console.warn('Lo siento mucho, perdiste');
         // Bloqueamos botones pedir y detener
         btnPedir.disabled = true;
         btnDetener.disabled = true;
+
 
         turnoComputadora( puntosJugador );
     } else if( puntosJugador === 21 ) {
@@ -109,7 +87,6 @@ btnPedir.addEventListener('click', () => {
         turnoComputadora( puntosJugador );
     }
 });
-
 
 btnDetener.addEventListener('click', () => {
     btnPedir.disabled = true;
@@ -123,7 +100,6 @@ btnNuevo.addEventListener('click', () => {
     console.clear();
 
     //Creamos nuevamente el deck y reseteamos el juego
-    // deck = [];
     deck = crearDeck( tipos, especiales );
 
     puntosJugador = 0;
