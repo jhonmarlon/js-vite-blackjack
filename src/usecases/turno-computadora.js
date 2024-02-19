@@ -1,30 +1,36 @@
-import { pedirCarta } from "./pedir-carta";
-import { sumaPuntosJugador } from "./suma-puntos-jugador";
+import { creaCartaHTML, pedirCarta, sumaPuntosJugador } from "./";
 
-export const turnoComputadora = ( puntosMinimos, puntosComputadora, deck,  ) => {
+export const turnoComputadora = ( deck, puntosHTML, divCartasHTML ) => {
+
+    let puntosJugador = localStorage.getItem('puntosJugador0');
+    let puntosComputadora = localStorage.getItem('puntosJugador1');
+
     do {
 
         const carta = pedirCarta( deck );
-        sumaPuntosJugador(1, carta);
-        creaCartaHTML(1, carta);
 
-        if( puntosMinimos > 21 ) {
+        puntosComputadora = sumaPuntosJugador( carta, puntosComputadora );
+        localStorage.setItem('puntosJugador1', puntosComputadora);
+
+        creaCartaHTML({tipoJugador: 1, carta, puntosHTML, divCartasHTML});
+
+        if( puntosJugador > 21 ) {
             // console.warn('Te ha ganado la computadora!')
             break;
         }
 
-    } while ((puntosComputadora < puntosMinimos) && (puntosMinimos <= 21));
+    } while ((puntosComputadora < puntosJugador) && (puntosJugador <= 21));
 
     setTimeout(() => {
-        if ( puntosMinimos === 21 ){
+        if ( puntosJugador === 21 ){
             alert('Jugador gana');
-        } else if( puntosComputadora === puntosMinimos ) {
+        } else if( puntosComputadora === puntosJugador ) {
             alert('Nadie gana :(');
-        } else if( puntosMinimos > 21 ) {
+        } else if( puntosJugador > 21 ) {
             alert('Computadora gana');
         } else if( puntosComputadora > 21 ) {
             alert('Jugador gana');
-        } else if(puntosMinimos < puntosComputadora && puntosComputadora <= 21) {
+        } else if(puntosJugador < puntosComputadora && puntosComputadora <= 21) {
             alert('Computadora gana');
         }
     }, 100);

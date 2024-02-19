@@ -6,7 +6,7 @@
 export const valorCarta = ( carta ) => {
 
     if( !carta || (typeof carta !== 'string')) throw new Error('carta es obligatorio como un string');
-
+    
     const valor = carta.substring(0, carta.length - 1);
  
     return ( isNaN(valor) ) ? 
