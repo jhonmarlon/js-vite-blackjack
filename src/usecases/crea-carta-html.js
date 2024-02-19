@@ -2,23 +2,17 @@ export const creaCartaHTML = ({
     tipoJugador, 
     carta,
     puntosHTML, 
-    divCartasJugador, 
-    divCartasComputadora, 
-   }) => {
+    divCartasHTML
+}) => {
 
-    const puntosJugador = localStorage.getItem('puntosJugador');
-    const puntosComputadora = localStorage.getItem('puntosComputadora');
+    const puntosJugador = localStorage.getItem(`puntosJugador${ tipoJugador }`);
+
+    const divCartas = divCartasHTML[ tipoJugador ];
 
     const cartaJugador = document.createElement('img');
     cartaJugador.src = `./assets/cartas/${ carta }.png`;
     cartaJugador.classList.add('carta');
- 
-    if(tipoJugador === 0 )
-    {
-        divCartasJugador.append( cartaJugador )
-        puntosHTML[0].innerText = puntosJugador
-    }else {
-        divCartasComputadora.append( cartaJugador );
-        puntosHTML[1].innerText = puntosComputadora;
-    }
+
+    divCartas.append( cartaJugador );
+    puntosHTML[tipoJugador].innerText = puntosJugador
 }
