@@ -1,11 +1,13 @@
-export const creaCartaHTML = (
+export const creaCartaHTML = ({
     tipoJugador, 
     carta,
     puntosHTML, 
     divCartasJugador, 
     divCartasComputadora, 
-    puntosJugador, 
-    puntosComputadora, ) => {
+   }) => {
+
+    const puntosJugador = localStorage.getItem('puntosJugador');
+    const puntosComputadora = localStorage.getItem('puntosComputadora');
 
     const cartaJugador = document.createElement('img');
     cartaJugador.src = `./assets/cartas/${ carta }.png`;

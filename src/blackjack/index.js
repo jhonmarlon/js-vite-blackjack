@@ -36,7 +36,18 @@ const turnoComputadora = ( puntosMinimos ) => {
 
         const carta = pedirCarta( deck );
         puntosComputadora = sumaPuntosJugador(carta, puntosComputadora);
-        creaCartaHTML(1, carta, puntosHTML, divCartasJugador, divCartasComputadora, puntosJugador, puntosComputadora);
+        localStorage.setItem('puntosComputadora', puntosComputadora);
+
+       
+        const datosCarta = {
+            tipoJugador: 1,
+            carta,
+            puntosHTML,
+            divCartasJugador,
+            divCartasComputadora
+        }
+
+        creaCartaHTML(datosCarta);
 
         if( puntosMinimos > 21 ) {
             // console.warn('Te ha ganado la computadora!')
@@ -67,8 +78,17 @@ btnPedir.addEventListener('click', () => {
     const carta = pedirCarta( deck );
 
     puntosJugador = sumaPuntosJugador(carta, puntosJugador);
-    
-    creaCartaHTML(0, carta, puntosHTML, divCartasJugador, divCartasComputadora, puntosJugador, puntosComputadora);
+    localStorage.setItem('puntosJugador', puntosJugador);
+
+    const datosCarta = {
+        tipoJugador: 0,
+        carta,
+        puntosHTML,
+        divCartasJugador,
+        divCartasComputadora
+    }
+
+    creaCartaHTML(datosCarta);
     
     if( puntosJugador > 21 ) {
         //console.warn('Lo siento mucho, perdiste');
@@ -98,6 +118,7 @@ btnDetener.addEventListener('click', () => {
 btnNuevo.addEventListener('click', () => {
 
     console.clear();
+    localStorage.clear();
 
     //Creamos nuevamente el deck y reseteamos el juego
     deck = crearDeck( tipos, especiales );
